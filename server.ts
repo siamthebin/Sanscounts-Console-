@@ -1,6 +1,5 @@
 import express from "express";
 import cors from "cors";
-import { createServer as createViteServer } from "vite";
 import path from "path";
 import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
@@ -401,6 +400,7 @@ async function startServer() {
   console.log("Initializing Vite middleware...");
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
+    const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
