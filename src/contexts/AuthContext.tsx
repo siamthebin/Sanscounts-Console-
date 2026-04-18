@@ -21,15 +21,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log("AuthProvider: Setting up onAuthStateChanged...");
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      console.log("AuthProvider: Auth state changed. User:", user?.email || "Guest");
       setUser(user);
       if (user) {
         try {
+          console.log("AuthProvider: Fetching user document for:", user.uid);
           const userDoc = await getDoc(doc(db, 'users', user.uid));
           if (userDoc.exists()) {
+            console.log("AuthProvider: User data found.");
             setUserData(userDoc.data());
+          } else {
+            console.log("AuthProvider: No user document found in Firestore.");
           }
         } catch (error) {
+          console.error("AuthProvider: Firestore fetch error:", error);
           handleFirestoreError(error, OperationType.GET, `users/${user.uid}`);
         }
       } else {

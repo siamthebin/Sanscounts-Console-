@@ -1,17 +1,12 @@
 import express from "express";
 import cors from "cors";
-import path from "path";
-import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
 import { initializeApp } from "firebase/app";
 import { getFirestore, doc, setDoc, getDoc, deleteDoc, collection, query, where, getDocs, updateDoc } from "firebase/firestore";
 import nodemailer from 'nodemailer';
+import firebaseConfig from '../firebase-applet-config.json';
 
 const app = express();
-
-// Load Firebase config manually
-const firebaseConfigPath = path.resolve(process.cwd(), "firebase-applet-config.json");
-const firebaseConfig = JSON.parse(fs.readFileSync(firebaseConfigPath, "utf-8"));
 
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
@@ -43,7 +38,7 @@ const clients = [
   {
     clientId: "sanscounts-client-id",
     clientSecret: "sanscounts-secret",
-    redirectUris: ["http://localhost:3000/auth/callback", "https://sanscounts.run.app/auth/callback"],
+    redirectUris: ["http://localhost:3000/auth/callback", "https://sanscounts.run.app/auth/callback", "https://sanscounts.sansloud.com/auth/callback"],
     name: "Sanscounts"
   },
   {

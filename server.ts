@@ -6,10 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import { initializeApp } from "firebase/app";
 import { getFirestore, doc, getDoc, setDoc, deleteDoc, collection, query, where, getDocs, updateDoc } from "firebase/firestore";
 import nodemailer from "nodemailer";
-
-// Load Firebase config manually to be more robust in ESM
-const firebaseConfigPath = path.resolve(process.cwd(), "firebase-applet-config.json");
-const firebaseConfig = JSON.parse(fs.readFileSync(firebaseConfigPath, "utf-8"));
+import firebaseConfig from "./firebase-applet-config.json";
 
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
