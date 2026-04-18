@@ -8,12 +8,27 @@ import {
   setPersistence,
   browserLocalPersistence
 } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { getFirestore, doc, getDocFromServer } from 'firebase/firestore';
 import firebaseConfig from '../../firebase-applet-config.json';
 
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
 export const auth = getAuth(app);
+
+// Validation check for Firestore connection
+async function testConnection() {
+  try {
+    await getDocFromServer(doc(db, 'test', 'connection'));
+    console.log("Firebase: Firestore connection successful.");
+  } catch (error) {
+    if(error instanceof Error && error.message.includes('the client is offline')) {
+      console.error("Firebase: Connection failed. Please check your configuration.");
+    } else {
+      console.warn("Firebase: Initial connection check skipped or handled by rules.");
+    }
+  }
+}
+testConnection();
 
 // Set persistence to LOCAL for PWA support
 setPersistence(auth, browserLocalPersistence).catch((err) => {

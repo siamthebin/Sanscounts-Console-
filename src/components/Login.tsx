@@ -1,7 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Code } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { 
+  collection, 
+  addDoc, 
+  query, 
+  where, 
+  getDocs, 
+  serverTimestamp, 
+  limit, 
+  orderBy,
+  updateDoc,
+  doc,
+  Timestamp
+} from 'firebase/firestore';
+import { db, auth } from '../services/firebase';
+import { RecaptchaVerifier, signInWithPhoneNumber, ConfirmationResult } from 'firebase/auth';
 
 // Custom Sanscounts Logo
 const SanscountsLogo = ({ size = 48, className = "" }: { size?: number, className?: string }) => (
@@ -30,23 +45,6 @@ type ViewState =
   | 'forgot-password-new-password'
   | 'login-phone'
   | 'login-phone-otp';
-
-import { 
-  collection, 
-  addDoc, 
-  query, 
-  where, 
-  getDocs, 
-  serverTimestamp, 
-  limit, 
-  orderBy,
-  updateDoc,
-  doc,
-  Timestamp
-} from 'firebase/firestore';
-import { db } from '../services/firebase';
-import { updatePassword, RecaptchaVerifier, signInWithPhoneNumber, ConfirmationResult } from 'firebase/auth';
-import { auth } from '../services/firebase';
 
 declare global {
   interface Window {

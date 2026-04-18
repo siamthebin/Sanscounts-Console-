@@ -23,6 +23,14 @@ function MailApp() {
   const [selectedEmailId, setSelectedEmailId] = useState<string | null>(null);
   const [isComposeOpen, setIsComposeOpen] = useState(false);
   const [replyToEmail, setReplyToEmail] = useState<Email | null>(null);
+  const [loadTimedOut, setLoadTimedOut] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (authLoading) setLoadTimedOut(true);
+    }, 10000);
+    return () => clearTimeout(timer);
+  }, [authLoading]);
 
   // Send welcome instructions email to owner if not already present
   useEffect(() => {
@@ -59,11 +67,18 @@ function MailApp() {
           </div>
           <div className="flex flex-col items-center gap-3">
             <h2 className="text-zinc-100 font-bold text-xl tracking-tight">AI Studio</h2>
-            <div className="flex items-center gap-1.5">
-              <div className="w-1.5 h-1.5 rounded-full bg-zinc-600 animate-bounce" style={{ animationDelay: '0ms' }} />
-              <div className="w-1.5 h-1.5 rounded-full bg-zinc-600 animate-bounce" style={{ animationDelay: '150ms' }} />
-              <div className="w-1.5 h-1.5 rounded-full bg-zinc-600 animate-bounce" style={{ animationDelay: '300ms' }} />
-            </div>
+            {loadTimedOut ? (
+              <div className="text-center">
+                <p className="text-red-500 text-[10px] mb-2">Connecting to Firebase...</p>
+                <button onClick={() => window.location.reload()} className="text-[10px] text-zinc-500 underline">Try Reload</button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-1.5">
+                <div className="w-1.5 h-1.5 rounded-full bg-zinc-600 animate-bounce" style={{ animationDelay: '0ms' }} />
+                <div className="w-1.5 h-1.5 rounded-full bg-zinc-600 animate-bounce" style={{ animationDelay: '150ms' }} />
+                <div className="w-1.5 h-1.5 rounded-full bg-zinc-600 animate-bounce" style={{ animationDelay: '300ms' }} />
+              </div>
+            )}
           </div>
         </div>
       </div>

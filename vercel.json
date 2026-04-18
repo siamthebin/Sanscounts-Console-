@@ -2,7 +2,8 @@
   "version": 2,
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/index.ts" },
-    { "source": "/oauth/(.*)", "destination": "/api/index.ts" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/oauth/token", "destination": "/api/index.ts" },
+    { "source": "/oauth/userinfo", "destination": "/api/index.ts" },
+    { "source": "/((?!api|oauth/token|oauth/userinfo).*)", "destination": "/index.html" }
   ]
 }

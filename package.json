@@ -39,6 +39,8 @@
     "vite-plugin-pwa": "^1.2.0"
   },
   "devDependencies": {
+    "@firebase/eslint-plugin-security-rules": "^0.0.1",
+    "@firebase/rules-unit-testing": "^5.0.0-20250716201504",
     "@types/cors": "^2.8.19",
     "@types/express": "^4.17.21",
     "@types/node": "^22.14.0",
